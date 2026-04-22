@@ -1,0 +1,15 @@
+# Fichiers système
+.DS_Store
+Thumbs.db
+
+# Assets locaux (icône Desktop) — pas utiles pour la version web
+assets/bmw.iconset/
+assets/bmw-roundel.icns
+
+# Dépendances / caches éventuels
+node_modules/
+.cache/
+
+# Fichiers temporaires
+*.tmp
+*.log

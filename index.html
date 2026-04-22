@@ -1,0 +1,1889 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BMW Motorrad — Suivi projet SEO 2026</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f6fa;
+            color: #2d3436;
+            padding: 24px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        .header-bar {
+            background: linear-gradient(135deg, #0166b1, #1c69d4);
+            color: white;
+            padding: 28px 32px;
+            border-radius: 12px;
+            margin-bottom: 28px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+        .header-bar .brand {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .header-bar .logo {
+            width: 48px;
+            height: 48px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1.1rem;
+            color: #0166b1;
+            border: 3px solid #fff;
+            box-shadow: 0 0 0 2px #0166b1;
+        }
+        .header-bar h1 { color: white; font-size: 1.5rem; }
+        .header-bar .subtitle { color: rgba(255,255,255,0.85); font-size: 0.95rem; margin-top: 2px; }
+        .header-right { text-align: right; }
+        .header-right .date { font-size: 1.05rem; font-weight: 600; }
+        .header-right .period { font-size: 0.8rem; opacity: 0.85; margin-top: 2px; }
+
+        /* Resources bar */
+        .resources {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 24px;
+        }
+        .resource-link {
+            background: white;
+            color: #0166b1;
+            text-decoration: none;
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.06);
+            transition: all 0.15s;
+            border: 1px solid #dfe6e9;
+        }
+        .resource-link:hover { background: #0166b1; color: white; border-color: #0166b1; }
+        .resource-link .icon { margin-right: 4px; }
+
+        /* Summary */
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 28px;
+        }
+        .summary-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+        }
+        .summary-card .value { font-size: 2rem; font-weight: 800; }
+        .summary-card .label { font-size: 0.8rem; color: #636e72; margin-top: 4px; }
+        .green { color: #00b894; }
+        .orange { color: #e67e22; }
+        .red { color: #d63031; }
+        .blue { color: #0166b1; }
+        .gray { color: #636e72; }
+
+        /* Tempo */
+        .tempo-section {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 28px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+        }
+        .tempo-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        .tempo-header h2 { font-size: 1.05rem; }
+        .tempo-bar-bg {
+            background: #eee;
+            border-radius: 10px;
+            height: 28px;
+            position: relative;
+            overflow: visible;
+        }
+        .tempo-bar-expected {
+            position: absolute;
+            height: 100%;
+            background: linear-gradient(90deg, #b2d6f0, #dfe6e9);
+            border-radius: 10px;
+        }
+        .tempo-bar-marker {
+            position: absolute;
+            height: 100%;
+            width: 3px;
+            background: #0166b1;
+            z-index: 2;
+        }
+        .tempo-bar-marker::after {
+            content: attr(data-label);
+            position: absolute;
+            top: -22px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.7rem;
+            color: #636e72;
+            white-space: nowrap;
+        }
+        .tempo-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 8px;
+            font-size: 0.8rem;
+            color: #636e72;
+        }
+
+        /* Phases */
+        .phase {
+            background: white;
+            border-radius: 12px;
+            margin-bottom: 24px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+            overflow: hidden;
+        }
+        .phase-header {
+            padding: 20px 24px;
+            background: linear-gradient(90deg, #f8f9fa, #fff);
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            cursor: pointer;
+            user-select: none;
+        }
+        .phase-header:hover { background: linear-gradient(90deg, #eef2f7, #f8fafc); }
+        .phase.collapsed .phase-body { display: none; }
+        .phase.collapsed .phase-header { border-bottom: none; }
+        .chevron {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            transition: transform 0.2s;
+            margin-left: 8px;
+            color: #636e72;
+            font-size: 0.9rem;
+        }
+        .phase.collapsed .chevron { transform: rotate(-90deg); }
+        .phase-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #0166b1;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .phase-number {
+            display: inline-flex;
+            width: 28px;
+            height: 28px;
+            background: #0166b1;
+            color: white;
+            border-radius: 50%;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            font-weight: 700;
+        }
+        .weight-badge {
+            display: inline-block;
+            background: #e3f2fd;
+            color: #0166b1;
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 2px 9px;
+            border-radius: 12px;
+            margin-left: 4px;
+            letter-spacing: 0.02em;
+        }
+        .phase-body { padding: 16px 24px 24px; }
+
+        .phase-stats {
+            font-size: 0.85rem;
+            color: #636e72;
+            text-align: right;
+        }
+        .phase-stats .done-count {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #2d3436;
+        }
+
+        .progress-bg {
+            background: #eee;
+            border-radius: 8px;
+            height: 10px;
+            position: relative;
+            overflow: hidden;
+            margin-top: 8px;
+        }
+        .progress-fill {
+            height: 100%;
+            border-radius: 8px;
+            transition: width 0.6s ease;
+        }
+        .fill-green { background: linear-gradient(90deg, #00b894, #55efc4); }
+        .fill-orange { background: linear-gradient(90deg, #e67e22, #f9ca24); }
+        .fill-red { background: linear-gradient(90deg, #d63031, #e17055); }
+        .fill-blue { background: linear-gradient(90deg, #0166b1, #1c69d4); }
+
+        /* Deliverable cards inside phases */
+        .deliverable {
+            border-left: 3px solid #dfe6e9;
+            padding: 14px 18px;
+            margin: 14px 0;
+            background: #fafbfc;
+            border-radius: 0 8px 8px 0;
+        }
+        .deliverable.status-done { border-left-color: #00b894; background: #f0faf4; }
+        .deliverable.status-ongoing { border-left-color: #1c69d4; background: #f0f6fc; }
+        .deliverable.status-na { border-left-color: #b2bec3; background: #f5f6fa; opacity: 0.75; }
+
+        .deliverable-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+        .deliverable-title {
+            font-weight: 600;
+            font-size: 0.92rem;
+            flex: 1;
+        }
+        .deliverable-title .livrable {
+            display: inline-block;
+            margin-left: 6px;
+            font-size: 0.7rem;
+            font-weight: 500;
+            background: #fff3cd;
+            color: #856404;
+            padding: 1px 7px;
+            border-radius: 10px;
+        }
+
+        /* Status pill */
+        .status-pill {
+            font-size: 0.72rem;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-weight: 600;
+            white-space: nowrap;
+            cursor: pointer;
+            user-select: none;
+            border: none;
+            transition: all 0.15s;
+        }
+        .status-pill:hover { transform: scale(1.05); }
+        .status-todo { background: #f1f2f6; color: #636e72; }
+        .status-ongoing { background: #cce5ff; color: #004085; }
+        .status-done { background: #d4edda; color: #155724; }
+        .status-na { background: #eee; color: #999; }
+
+        /* Sub-items */
+        .subitems {
+            list-style: none;
+            margin-top: 8px;
+            padding-left: 0;
+        }
+        .subitems li {
+            font-size: 0.85rem;
+            color: #2d3436;
+            padding: 5px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .subitems li.done .label { text-decoration: line-through; color: #00b894; }
+        .subitems input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+            accent-color: #00b894;
+            flex-shrink: 0;
+        }
+        .subitems .label { flex: 1; }
+        .subitems .counter {
+            font-size: 0.75rem;
+            color: #636e72;
+            font-weight: 600;
+        }
+        .subitems .counter input {
+            width: 50px;
+            border: 1px solid #dfe6e9;
+            border-radius: 4px;
+            padding: 2px 6px;
+            font-size: 0.8rem;
+            text-align: center;
+        }
+        .subitems .target {
+            color: #b2bec3;
+            font-size: 0.75rem;
+        }
+
+        .deliverable-note {
+            font-size: 0.8rem;
+            color: #636e72;
+            margin-top: 6px;
+            font-style: italic;
+        }
+
+        /* Admin bar */
+        .admin-bar {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            gap: 8px;
+            z-index: 100;
+        }
+        .btn {
+            padding: 10px 18px;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            font-weight: 600;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+            transition: all 0.15s;
+        }
+        .btn-primary { background: #0166b1; color: white; }
+        .btn-primary:hover { background: #014a82; }
+        .btn-secondary { background: white; color: #2d3436; }
+        .btn-secondary:hover { background: #f1f2f6; }
+        .btn-danger { background: #d63031; color: white; }
+
+        .admin-mode .deliverable { cursor: pointer; }
+
+        /* Modal */
+        .modal-bg {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 200;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .modal {
+            background: white;
+            border-radius: 12px;
+            padding: 28px;
+            max-width: 700px;
+            width: 100%;
+            max-height: 80vh;
+            overflow: auto;
+        }
+        .modal h2 { margin-bottom: 12px; font-size: 1.1rem; }
+        .modal p { font-size: 0.88rem; color: #636e72; margin-bottom: 12px; }
+        .modal textarea {
+            width: 100%;
+            height: 320px;
+            border: 1px solid #dfe6e9;
+            border-radius: 8px;
+            padding: 12px;
+            font-family: ui-monospace, Menlo, monospace;
+            font-size: 0.78rem;
+        }
+        .modal-footer { display: flex; justify-content: flex-end; gap: 8px; margin-top: 12px; }
+
+        .update-info {
+            text-align: center;
+            color: #b2bec3;
+            font-size: 0.8rem;
+            margin-top: 32px;
+            padding-top: 16px;
+            border-top: 1px solid #eee;
+        }
+        .update-info a { color: #0166b1; }
+
+        /* Notion */
+        .notion-config {
+            background: white;
+            border-radius: 10px;
+            padding: 14px 18px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .notion-config input {
+            flex: 1;
+            min-width: 220px;
+            padding: 8px 12px;
+            border: 1px solid #dfe6e9;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-family: ui-monospace, Menlo, monospace;
+        }
+        .notion-config .label { font-size: 0.85rem; color: #636e72; font-weight: 600; }
+        .notion-section { margin-bottom: 28px; }
+        .notion-toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .notion-toolbar h2 {
+            font-size: 1.1rem;
+            color: #0166b1;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .notion-meta { font-size: 0.78rem; color: #636e72; }
+        .notion-group { margin-bottom: 10px; }
+        .notion-group-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 14px 0 8px;
+            padding: 6px 12px;
+            border-radius: 6px;
+            user-select: none;
+        }
+        .notion-group-header:hover { filter: brightness(0.97); }
+        .notion-group-header .count {
+            background: white;
+            padding: 1px 9px;
+            border-radius: 12px;
+            font-size: 0.72rem;
+            font-weight: 700;
+        }
+        .notion-group-header .chevron { font-size: 0.75rem; color: #636e72; }
+        .notion-group.collapsed .notion-group-header .chevron { transform: rotate(-90deg); }
+        .notion-group.collapsed .notion-group-body { display: none; }
+        .deliverable-notion {
+            border-left: 3px solid #0166b1;
+            background: #fafbfc;
+            margin-top: 16px;
+        }
+        .notion-task {
+            background: white;
+            border-radius: 8px;
+            padding: 10px 14px;
+            margin: 6px 0;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.88rem;
+            border-left: 3px solid #dfe6e9;
+        }
+        .notion-task.done { border-left-color: #00b894; opacity: 0.75; }
+        .notion-task.ongoing { border-left-color: #1c69d4; }
+        .notion-task a {
+            margin-left: auto;
+            color: #0166b1;
+            text-decoration: none;
+            font-size: 0.78rem;
+        }
+        .notion-task a:hover { text-decoration: underline; }
+        .notion-task .phase-tag {
+            font-size: 0.72rem;
+            padding: 2px 8px;
+            border-radius: 10px;
+            background: #f1f2f6;
+            color: #636e72;
+        }
+        .notion-task .prio-tag {
+            font-size: 0.7rem;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+        .prio-high { background: #ffe8e8; color: #c0392b; }
+        .prio-med { background: #fff3cd; color: #856404; }
+        .prio-low { background: #e9ecef; color: #636e72; }
+        .prio-none { display: none; }
+        .notion-task .date-tag {
+            font-size: 0.72rem;
+            color: #636e72;
+        }
+        .notion-task-body {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .notion-task-meta {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            align-items: center;
+            font-size: 0.72rem;
+            color: #636e72;
+        }
+        .notion-error {
+            background: #fff3f3;
+            color: #d63031;
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            margin-bottom: 12px;
+        }
+
+        /* Login gate */
+        #loginScreen {
+            position: fixed;
+            inset: 0;
+            background: linear-gradient(135deg, #0166b1, #1c69d4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 300;
+            padding: 20px;
+        }
+        .login-card {
+            background: white;
+            border-radius: 14px;
+            padding: 36px 32px;
+            width: 100%;
+            max-width: 380px;
+            box-shadow: 0 6px 28px rgba(0,0,0,0.15);
+            text-align: center;
+        }
+        .login-card .logo {
+            width: 56px;
+            height: 56px;
+            background: #0166b1;
+            color: white;
+            border-radius: 50%;
+            margin: 0 auto 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1.1rem;
+        }
+        .login-card h1 { font-size: 1.2rem; margin-bottom: 4px; }
+        .login-card .sub { font-size: 0.88rem; color: #636e72; margin-bottom: 20px; }
+        .login-card label {
+            display: block;
+            text-align: left;
+            font-size: 0.82rem;
+            color: #636e72;
+            font-weight: 600;
+            margin-bottom: 4px;
+            margin-top: 10px;
+        }
+        .login-card input {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid #dfe6e9;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-family: inherit;
+        }
+        .login-card input:focus { outline: none; border-color: #0166b1; }
+        .login-card button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 20px;
+            background: #0166b1;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .login-card button:hover { background: #014a82; }
+        .login-error {
+            color: #d63031;
+            font-size: 0.85rem;
+            margin-top: 12px;
+            min-height: 1.2em;
+        }
+        body.locked > :not(#loginScreen) { display: none !important; }
+        body.locked { overflow: hidden; }
+
+        @media (max-width: 600px) {
+            body { padding: 12px; }
+            .header-bar { padding: 20px; }
+            .phase-header { padding: 16px 18px; }
+            .phase-body { padding: 12px 18px 18px; }
+            .admin-bar { bottom: 10px; right: 10px; }
+            .btn { padding: 8px 12px; font-size: 0.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Login gate -->
+<div id="loginScreen" style="display:none;">
+    <form class="login-card" onsubmit="handleLogin(event)">
+        <div class="logo">BMW</div>
+        <h1>Suivi projet SEO 2026</h1>
+        <div class="sub">Accès réservé — BMW Motorrad France</div>
+        <label for="loginEmail">Email</label>
+        <input type="email" id="loginEmail" autocomplete="username" required>
+        <label for="loginPwd">Mot de passe</label>
+        <input type="password" id="loginPwd" autocomplete="current-password" required>
+        <button type="submit">Se connecter</button>
+        <div class="login-error" id="loginError"></div>
+    </form>
+</div>
+
+<!-- Header -->
+<div class="header-bar">
+    <div class="brand">
+        <div class="logo">BMW</div>
+        <div>
+            <h1>BMW Motorrad — Suivi projet SEO 2026</h1>
+            <div class="subtitle">bmw-motorrad.fr · Pilotage Empirik · Avancement des livrables</div>
+        </div>
+    </div>
+    <div class="header-right">
+        <div class="date" id="currentDate"></div>
+        <div class="period">Période contractuelle : 01/01/2026 → 31/12/2026</div>
+    </div>
+</div>
+
+<!-- Resources -->
+<div class="resources">
+    <a class="resource-link" href="https://datastudio.google.com/u/0/reporting/0eeed133-6166-4ad2-ba60-ffe8db6a1421/page/p_kx1rbu54bd" target="_blank"><span class="icon">📊</span>Looker Studio</a>
+    <a class="resource-link" href="https://impakkt.empirik.fr/market/bmwmotorrad/fra/mobile?currentPeriod=4S&comparePeriod=N-1" target="_blank"><span class="icon">🎯</span>IMPAKKT</a>
+    <a class="resource-link" href="https://docs.google.com/spreadsheets/d/1VeN6ev-VJraHN0Y5jSf3Fv49UjFonpfUrf8_PiAET7I/edit" target="_blank"><span class="icon">🔑</span>Charte de nommage mots-clés</a>
+    <a class="resource-link" href="https://drive.google.com/drive/folders/1ARZ9KFePWaszJ3iefUbWJFJqcuth5BFY" target="_blank"><span class="icon">📁</span>Livrables (Drive)</a>
+    <a class="resource-link" href="https://docs.google.com/spreadsheets/d/1ddpEZNPmZefMDAMlyr3NuXTw9saDcY303J4J-hvB_Q0/edit" target="_blank"><span class="icon">📋</span>Dossier de travail</a>
+    <a class="resource-link" href="https://www.bmw-motorrad.fr/fr/home.html" target="_blank"><span class="icon">🌐</span>bmw-motorrad.fr</a>
+</div>
+
+<!-- Summary -->
+<div class="summary-grid" id="summaryGrid"></div>
+
+<!-- Tempo -->
+<div class="tempo-section">
+    <div class="tempo-header">
+        <h2>Tempo contractuel 2026</h2>
+        <span id="tempoPercent" style="font-weight:700;color:#0166b1;"></span>
+    </div>
+    <div class="tempo-bar-bg">
+        <div class="tempo-bar-expected" id="tempoExpected"></div>
+        <div class="tempo-bar-marker" id="tempoMarker"></div>
+    </div>
+    <div class="tempo-labels">
+        <span>1 janv.</span>
+        <span>31 mars (T1)</span>
+        <span>30 juin (T2)</span>
+        <span>30 sept. (T3)</span>
+        <span>31 déc.</span>
+    </div>
+</div>
+
+<!-- Phases content -->
+<div id="content"></div>
+
+<!-- Admin bar -->
+<div class="admin-bar">
+    <button class="btn btn-secondary" onclick="toggleAllPhases()">Tout plier / déplier</button>
+    <button class="btn btn-secondary" onclick="refreshNotion()">Rafraîchir Notion</button>
+    <button class="btn btn-primary" onclick="exportJSON()">Exporter pour publication</button>
+    <button class="btn btn-secondary" onclick="resetLocal()">Restaurer</button>
+    <button class="btn btn-secondary" id="btnLogout" onclick="handleLogout()" style="display:none;">Déconnexion</button>
+</div>
+
+<!-- Modal -->
+<div class="modal-bg" id="exportModal" style="display:none;">
+    <div class="modal">
+        <h2>Exporter l'état actuel</h2>
+        <p>Copiez ce bloc dans <code>index.html</code> (remplace <code>LAST_PUBLISHED</code>, <code>ACTIONS</code> et <code>NOTION_SNAPSHOT</code>), puis commitez sur GitHub.</p>
+        <textarea id="exportText" readonly></textarea>
+        <div class="modal-footer">
+            <button class="btn btn-secondary" onclick="document.getElementById('exportModal').style.display='none'">Fermer</button>
+            <button class="btn btn-primary" onclick="copyExport()">Copier dans le presse-papier</button>
+        </div>
+    </div>
+</div>
+
+<div class="update-info" id="updateInfo">
+    Dernière mise à jour publiée : <span id="lastCommitDate">—</span>
+    · <a href="#" onclick="document.getElementById('exportModal').style.display='flex'; exportJSON(); return false;">éditer</a>
+</div>
+
+<script>
+// ============================================================
+// CONFIGURATION — Période contractuelle
+// ============================================================
+const CONTRACT = { start: "2026-01-01", end: "2026-12-31" };
+const LAST_PUBLISHED = "2026-04-21";
+
+// Base Notion Empirik — kanban projet BMW Motorrad
+const NOTION_DATABASE_ID = "2f4abe8b-9989-81b6-9d8d-e39662ac1789";
+
+// Snapshot des tâches Notion figé au dernier export (visible pour le client
+// sans token). Remplacé par le bouton "Exporter pour publication".
+const NOTION_SNAPSHOT = [
+    {
+        "id": "32eabe8b-9989-8000-b8dc-f66a4c368c33",
+        "name": "Cannibalisation des ancres de liens - à faire après avoir optimisé le maillage interne du blog",
+        "avancement": "Envisagé",
+        "priorite": "Faible",
+        "expertise": "SEO",
+        "echeance": null,
+        "referent": "",
+        "assignation": "Etienne Gousseau",
+        "lastEdit": "2026-04-10T08:40:00.000Z",
+        "url": "https://www.notion.so/Cannibalisation-des-ancres-de-liens-faire-apr-s-avoir-optimis-le-maillage-interne-du-blog-32eabe8b99898000b8dcf66a4c368c33"
+    },
+    {
+        "id": "32eabe8b-9989-8003-a181-c3276c798c64",
+        "name": "Corriger les 12 doublons de balises Title ",
+        "avancement": "Terminé",
+        "priorite": "Importante",
+        "expertise": "SEO",
+        "echeance": "2026-04-17",
+        "referent": "",
+        "assignation": "Véronique ",
+        "lastEdit": "2026-04-21T10:08:00.000Z",
+        "url": "https://www.notion.so/Corriger-les-12-doublons-de-balises-Title-32eabe8b99898003a181c3276c798c64"
+    },
+    {
+        "id": "32eabe8b-9989-8008-97dc-da10fc73e4ca",
+        "name": "Déployer les données structurées sur la homepage et aux pages catégories",
+        "avancement": "En cours",
+        "priorite": "Importante",
+        "expertise": "SEO",
+        "echeance": null,
+        "referent": "",
+        "assignation": "François Rouganne, Emmanuel Michel",
+        "lastEdit": "2026-04-21T10:50:00.000Z",
+        "url": "https://www.notion.so/D-ployer-les-donn-es-structur-es-sur-la-homepage-et-aux-pages-cat-gories-32eabe8b9989800897dcda10fc73e4ca"
+    },
+    {
+        "id": "32eabe8b-9989-800e-99d8-eed270a7e4a7",
+        "name": "Enrichir les 104 balises Title trop courtes (moins de 30 caractères)",
+        "avancement": "À engager",
+        "priorite": "Moyenne",
+        "expertise": "SEO",
+        "echeance": "2026-04-23",
+        "referent": "",
+        "assignation": "Emmanuel Michel, Véronique , François Rouganne",
+        "lastEdit": "2026-04-21T13:27:00.000Z",
+        "url": "https://www.notion.so/Enrichir-les-104-balises-Title-trop-courtes-moins-de-30-caract-res-32eabe8b9989800e99d8eed270a7e4a7"
+    },
+    {
+        "id": "32eabe8b-9989-8012-9262-db90540c3eb6",
+        "name": "Corriger les page en 404",
+        "avancement": "Terminé",
+        "priorite": "Moyenne",
+        "expertise": "SEO",
+        "echeance": "2026-04-10",
+        "referent": "",
+        "assignation": "Emmanuel Michel, François Rouganne",
+        "lastEdit": "2026-04-22T08:00:00.000Z",
+        "url": "https://www.notion.so/Corriger-les-page-en-404-32eabe8b998980129262db90540c3eb6"
+    },
+    {
+        "id": "32eabe8b-9989-8018-9abf-ff31a8832242",
+        "name": "Corriger les balises hreflang entre les trois domaines francophones",
+        "avancement": "Envisagé",
+        "priorite": "Faible",
+        "expertise": "SEO",
+        "echeance": null,
+        "referent": "",
+        "assignation": "Véronique ",
+        "lastEdit": "2026-04-10T08:35:00.000Z",
+        "url": "https://www.notion.so/Corriger-les-balises-hreflang-entre-les-trois-domaines-francophones-32eabe8b998980189abfff31a8832242"
+    },
+    {
+        "id": "32eabe8b-9989-801d-bc1e-c7f8e22c80b7",
+        "name": "Rééquilibrer le poids des pages survalorisées dans le maillage interne",
+        "avancement": "En cours",
+        "priorite": "Importante",
+        "expertise": "SEO",
+        "echeance": null,
+        "referent": "",
+        "assignation": "François Rouganne, Emmanuel Michel",
+        "lastEdit": "2026-04-21T10:50:00.000Z",
+        "url": "https://www.notion.so/R-quilibrer-le-poids-des-pages-survaloris-es-dans-le-maillage-interne-32eabe8b9989801dbc1ec7f8e22c80b7"
+    },
+    {
+        "id": "32eabe8b-9989-8026-b383-fc9037127b19",
+        "name": "Ajouter des liens contextuels vers les modèles et catégories depuis les pages informationnelles",
+        "avancement": "Envisagé",
+        "priorite": "Moyenne",
+        "expertise": "SEO",
+        "echeance": null,
+        "referent": "",
+        "assignation": "Emmanuel Michel, Véronique , François Rouganne",
+        "lastEdit": "2026-04-10T08:29:00.000Z",
+        "url": "https://www.notion.so/Ajouter-des-liens-contextuels-vers-les-mod-les-et-cat-gories-depuis-les-pages-informationnelles-32eabe8b99898026b383fc9037127b19"
+    },
+    {
+        "id": "32eabe8b-9989-805f-b76c-c6d8c49e2246",
+        "name": "Récupérer l'autorité perdue sur les 94 backlinks pointant vers des pages 404",
+        "avancement": "Envisagé",
+        "priorite": "Importante",
+        "expertise": "SEO",
+        "echeance": "2026-05-29",
+        "referent": "",
+        "assignation": "Véronique ",
+        "lastEdit": "2026-04-10T08:22:00.000Z",
+        "url": "https://www.notion.so/R-cup-rer-l-autorit-perdue-sur-les-94-backlinks-pointant-vers-des-pages-404-32eabe8b9989805fb76cc6d8c49e2246"
+    },
+    {
+        "id": "32eabe8b-9989-8060-8d21-f63e04723d62",
+        "name": "Corriger les Core Web Vitals - Optimiser le CLS ",
+        "avancement": "Envisagé",
+        "priorite": "Faible",
+        "expertise": "SEO",
+        "echeance": null,
+        "referent": "",
+        "assignation": "François Rouganne, Emmanuel Michel, Véronique ",
+        "lastEdit": "2026-04-10T08:36:00.000Z",
+        "url": "https://www.notion.so/Corriger-les-Core-Web-Vitals-Optimiser-le-CLS-32eabe8b998980608d21f63e04723d62"
+    },
+    {
+        "id": "32eabe8b-9989-8072-abe7-db37a9c54fec",
+        "name": "Renseigner les attributs alt manquants sur les 223 images",
+        "avancement": "Envisagé",
+        "priorite": "Faible",
+        "expertise": "SEO",
+        "echeance": null,
+        "referent": "",
+        "assignation": "Emmanuel Michel, Véronique ",
+        "lastEdit": "2026-04-10T08:39:00.000Z",
+        "url": "https://www.notion.so/Renseigner-les-attributs-alt-manquants-sur-les-223-images-32eabe8b99898072abe7db37a9c54fec"
+    },
+    {
+        "id": "32eabe8b-9989-8079-a29d-cd6ba6892037",
+        "name": "Qualifier et traiter les 28 pages avec peu de contenu",
+        "avancement": "Envisagé",
+        "priorite": "Moyenne",
+        "expertise": "SEO",
+        "echeance": null,
+        "referent": "",
+        "assignation": "François Rouganne, Véronique ",
+        "lastEdit": "2026-04-10T08:34:00.000Z",
+        "url": "https://www.notion.so/Qualifier-et-traiter-les-28-pages-avec-peu-de-contenu-32eabe8b99898079a29dcd6ba6892037"
+    },
+    {
+        "id": "32eabe8b-9989-807b-b3b1-edae1963bc1c",
+        "name": "Auditer la pertinence des 693 URLs présentes dans le plan du site (celui du footer)",
+        "avancement": "En cours",
+        "priorite": "Importante",
+        "expertise": "SEO",
+        "echeance": null,
+        "referent": "",
+        "assignation": "François Rouganne",
+        "lastEdit": "2026-04-21T10:50:00.000Z",
+        "url": "https://www.notion.so/Auditer-la-pertinence-des-693-URLs-pr-sentes-dans-le-plan-du-site-celui-du-footer-32eabe8b9989807bb3b1edae1963bc1c"
+    },
+    {
+        "id": "32eabe8b-9989-8082-822a-f6061d3de718",
+        "name": "Modifier le Robots.txt",
+        "avancement": "En cours",
+        "priorite": "Importante",
+        "expertise": "SEO",
+        "echeance": "2026-04-30",
+        "referent": "",
+        "assignation": "François Rouganne",
+        "lastEdit": "2026-04-22T07:54:00.000Z",
+        "url": "https://www.notion.so/Modifier-le-Robots-txt-32eabe8b99898082822af6061d3de718"
+    },
+    {
+        "id": "32eabe8b-9989-808d-aec5-e25e97d2a7ef",
+        "name": "Corriger les H1 en doublon",
+        "avancement": "Envisagé",
+        "priorite": "Faible",
+        "expertise": "SEO",
+        "echeance": null,
+        "referent": "",
+        "assignation": "Emmanuel Michel",
+        "lastEdit": "2026-04-10T08:40:00.000Z",
+        "url": "https://www.notion.so/Corriger-les-H1-en-doublon-32eabe8b9989808daec5e25e97d2a7ef"
+    },
+    {
+        "id": "32eabe8b-9989-809f-9b10-d902d3e1e8b2",
+        "name": "Valider les URL proposées dans la charte de nommage ",
+        "avancement": "À engager",
+        "priorite": "Importante",
+        "expertise": "SEO",
+        "echeance": null,
+        "referent": "",
+        "assignation": "François Rouganne, Emmanuel Michel",
+        "lastEdit": "2026-04-21T12:49:00.000Z",
+        "url": "https://www.notion.so/Valider-les-URL-propos-es-dans-la-charte-de-nommage-32eabe8b9989809f9b10d902d3e1e8b2"
+    },
+    {
+        "id": "32eabe8b-9989-80a1-9f44-dfca5a135634",
+        "name": "Réduire le poids des images supérieures à 100 Ko",
+        "avancement": "Envisagé",
+        "priorite": "Faible",
+        "expertise": "SEO",
+        "echeance": "2026-05-29",
+        "referent": "",
+        "assignation": "Véronique ",
+        "lastEdit": "2026-04-10T08:38:00.000Z",
+        "url": "https://www.notion.so/R-duire-le-poids-des-images-sup-rieures-100-Ko-32eabe8b998980a19f44dfca5a135634"
+    },
+    {
+        "id": "32eabe8b-9989-80a6-8b55-e92a5ce4acba",
+        "name": "Core web Vitals - Optimiser le LCP de la homepage",
+        "avancement": "Envisagé",
+        "priorite": "Faible",
+        "expertise": "SEO",
+        "echeance": null,
+        "referent": "",
+        "assignation": "Véronique , François Rouganne, Emmanuel Michel",
+        "lastEdit": "2026-04-10T08:37:00.000Z",
+        "url": "https://www.notion.so/Core-web-Vitals-Optimiser-le-LCP-de-la-homepage-32eabe8b998980a68b55e92a5ce4acba"
+    },
+    {
+        "id": "32eabe8b-9989-80a6-a06f-dd03dda1b282",
+        "name": "Restructurer le footer vers les pages commerciales",
+        "avancement": "Envisagé",
+        "priorite": "Importante",
+        "expertise": "SEO",
+        "echeance": null,
+        "referent": "",
+        "assignation": "François Rouganne, emilie.lecapitaine@bmw.fr",
+        "lastEdit": "2026-04-01T12:55:00.000Z",
+        "url": "https://www.notion.so/Restructurer-le-footer-vers-les-pages-commerciales-32eabe8b998980a6a06fdd03dda1b282"
+    },
+    {
+        "id": "32eabe8b-9989-80c9-8c30-eb67b1509cfe",
+        "name": "Corriger les redirections 301",
+        "avancement": "Envisagé",
+        "priorite": "Moyenne",
+        "expertise": "SEO",
+        "echeance": "2026-05-29",
+        "referent": "",
+        "assignation": "Véronique ",
+        "lastEdit": "2026-04-21T10:51:00.000Z",
+        "url": "https://www.notion.so/Corriger-les-redirections-301-32eabe8b998980c98c30eb67b1509cfe"
+    },
+    {
+        "id": "32eabe8b-9989-80d4-a01d-d4a2d93e3192",
+        "name": "Obfuscation de liens vers 4 pages en no index + une page en 404",
+        "avancement": "Envisagé",
+        "priorite": "Moyenne",
+        "expertise": "SEO",
+        "echeance": null,
+        "referent": "",
+        "assignation": "François Rouganne, Emmanuel Michel",
+        "lastEdit": "2026-04-10T08:26:00.000Z",
+        "url": "https://www.notion.so/Obfuscation-de-liens-vers-4-pages-en-no-index-une-page-en-404-32eabe8b998980d4a01dd4a2d93e3192"
+    },
+    {
+        "id": "32eabe8b-9989-80dc-be12-c49a06817578",
+        "name": "Meta description manquante : identifier les pages clés et corriger",
+        "avancement": "Envisagé",
+        "priorite": "Moyenne",
+        "expertise": "SEO",
+        "echeance": null,
+        "referent": "",
+        "assignation": "Véronique , Emmanuel Michel, François Rouganne",
+        "lastEdit": "2026-04-10T08:31:00.000Z",
+        "url": "https://www.notion.so/Meta-description-manquante-identifier-les-pages-cl-s-et-corriger-32eabe8b998980dcbe12c49a06817578"
+    },
+    {
+        "id": "32eabe8b-9989-80ea-88a5-c7291bfc28ef",
+        "name": "Implémenter le fil d'ariane sur les pages catégories et modèles",
+        "avancement": "En cours",
+        "priorite": "Moyenne",
+        "expertise": "SEO",
+        "echeance": null,
+        "referent": "",
+        "assignation": "François Rouganne, Emmanuel Michel",
+        "lastEdit": "2026-04-21T12:22:00.000Z",
+        "url": "https://www.notion.so/Impl-menter-le-fil-d-ariane-sur-les-pages-cat-gories-et-mod-les-32eabe8b998980ea88a5c7291bfc28ef"
+    },
+    {
+        "id": "32fabe8b-9989-800e-8cc0-e42725e4a191",
+        "name": "Setup du LLM tracker ",
+        "avancement": "En tests",
+        "priorite": "",
+        "expertise": "",
+        "echeance": null,
+        "referent": "",
+        "assignation": "",
+        "lastEdit": "2026-04-21T07:50:00.000Z",
+        "url": "https://www.notion.so/Setup-du-LLM-tracker-32fabe8b9989800e8cc0e42725e4a191"
+    },
+    {
+        "id": "335abe8b-9989-80b3-a251-d300d17568bc",
+        "name": "Mettre en place l’outil IMPAKKT (suivi de position)",
+        "avancement": "En tests",
+        "priorite": "",
+        "expertise": "",
+        "echeance": null,
+        "referent": "",
+        "assignation": "",
+        "lastEdit": "2026-04-21T07:50:00.000Z",
+        "url": "https://www.notion.so/Mettre-en-place-l-outil-IMPAKKT-suivi-de-position-335abe8b998980b3a251d300d17568bc"
+    }
+];
+
+// ============================================================
+// PORTE D'ENTRÉE — gate simple côté client
+// ATTENTION : ce n'est PAS une authentification sécurisée. Le hash est
+// lisible dans le code source. Bloque un visiteur lambda, pas un attaquant.
+// Pour une vraie protection : Cloudflare Access devant GitHub Pages.
+//
+// Pour générer de nouveaux identifiants, dans la console du navigateur :
+//   await generateCredentialsHash("email@client.fr", "motDePasse")
+// Puis coller le résultat dans AUTH_HASH. Plusieurs entrées possibles.
+// AUTH_HASH = [] désactive complètement la porte.
+// ============================================================
+const AUTH_SALT = "bmw-motorrad-2026-suivi";
+const AUTH_HASH = [
+    // ex: "a3f1…" — vide = porte désactivée
+];
+
+// ============================================================
+// ACTIONS — Livrables du devis BMW Motorrad
+// Statuts : "todo" | "ongoing" | "done" | "na"
+// Sous-items : { label, done } ou counter : { label, done, target }
+// ============================================================
+const ACTIONS = [
+    {
+        id: "phase1",
+        title: "Stratégie",
+        number: "1",
+        weight: 10,
+        subtitle: "Kick-off · Audit · Étude mots-clés · Stratégie & mix SEO",
+        deliverables: [
+            {
+                id: "kickoff",
+                title: "Kick-off",
+                livrable: "Compte-rendu du kick-off",
+                status: "todo",
+                items: [
+                    { label: "Réunion de lancement de projet", done: false },
+                    { label: "Cadrage du périmètre", done: false },
+                    { label: "Brainstorming thématiques / mots-clés", done: false },
+                    { label: "Présentation des next steps et besoins", done: false },
+                    { label: "Compte-rendu kick-off livré", done: false }
+                ]
+            },
+            {
+                id: "audit",
+                title: "Audit SEO",
+                livrable: "Document d'audit",
+                status: "todo",
+                items: [
+                    { label: "Audit technique (indexation, hreflang, crawl, webperf)", done: false },
+                    { label: "Audit sémantique (title, meta, hn, images, maillage)", done: false },
+                    { label: "Audit popularité (offsite)", done: false },
+                    { label: "Document d'audit remis", done: false }
+                ]
+            },
+            {
+                id: "keywords",
+                title: "Étude de mots-clés",
+                livrable: "Liste mots-clés + workshop",
+                status: "todo",
+                items: [
+                    { label: "Étude préparatoire — identification thématiques cœur business", done: false },
+                    { label: "Recherche mots-clés liés aux thématiques", done: false },
+                    { label: "Pré-sélection mots-clés prioritaires", done: false },
+                    { label: "Workshop de restitution / validation", done: false }
+                ]
+            },
+            {
+                id: "strategy",
+                title: "Stratégie & mix SEO",
+                livrable: "Plan d'action + workshop",
+                status: "todo",
+                items: [
+                    { label: "Définition du ciblage sémantique", done: false },
+                    { label: "Définition objectifs & KPI + analyse fiabilité tracking", done: false },
+                    { label: "Planification prévisionnelle des actions", done: false },
+                    { label: "Workshop plan d'action priorisé", done: false }
+                ]
+            }
+        ]
+    },
+    {
+        id: "phase2",
+        title: "Optimisations (crédit temps)",
+        number: "2",
+        weight: 70,
+        subtitle: "Techniques · Sémantiques · Off-page · Correctives · Tâches Notion",
+        // Pondération du bloc Notion vs les 4 livrables du devis dans cette phase.
+        // 1 = Notion pèse comme un livrable ; 4 = autant que les 4 livrables combinés.
+        notionWeight: 4,
+        deliverables: [
+            {
+                id: "opt-tech",
+                title: "Optimisations techniques",
+                status: "todo",
+                items: [
+                    { label: "Spécifications techniques & fonctionnelles SEO", done: false },
+                    { label: "Priorisation et suivi de mise en place", done: false },
+                    { label: "Recette des intégrations techniques", done: false }
+                ],
+                note: "Intégration par l'agence cliente ou équipes internes BMW"
+            },
+            {
+                id: "opt-sem",
+                title: "Optimisations sémantiques",
+                status: "todo",
+                items: [
+                    { label: "Charte de nommage & recommandations éditoriales (pages prioritaires)", done: false },
+                    { label: "Cahier des charges optimisations dynamiques (structuration, balisage)", done: false },
+                    { label: "Recette intégration optimisations dynamiques", done: false },
+                    { label: "Briefs SEO livrés", done: false, counter: { current: 0, target: 50, unit: "briefs" } },
+                    { label: "Contenus rédigés", done: false, counter: { current: 0, target: 50, unit: "contenus" } },
+                    { label: "Relecture des contenus", done: false },
+                    { label: "Maillage interne", done: false }
+                ]
+            },
+            {
+                id: "opt-off",
+                title: "Optimisations off-page",
+                status: "todo",
+                items: [
+                    { label: "Achat de liens", done: false, counter: { current: 0, target: 70, unit: "liens" } },
+                    { label: "Conseil RP SEO", done: false },
+                    { label: "Optimisation Google My Business", done: false }
+                ]
+            },
+            {
+                id: "opt-corr",
+                title: "Optimisations correctives",
+                status: "todo",
+                items: [
+                    { label: "Optimisations périodiques (techniques / sémantiques) selon résultats", done: false }
+                ],
+                note: "Priorisées en fonction de la criticité vs impact attendu, tout au long du projet"
+            }
+        ]
+    },
+    {
+        id: "phase3",
+        title: "Pilotage T1 — Tableau de bord + calls mensuels",
+        number: "3",
+        weight: 10,
+        subtitle: "Tableau de bord Looker · Pilotage et call projet mensuels (janv. → mars)",
+        deliverables: [
+            {
+                id: "looker",
+                title: "Tableau de bord SEO Looker",
+                status: "done",
+                items: [
+                    { label: "Tableau de bord Looker Studio paramétré", done: true },
+                    { label: "LLM brand tracker paramétré", done: true },
+                    { label: "Instance IMPAKKT activée", done: true }
+                ],
+                note: "Sources de données : Looker + IMPAKKT + LLM brand tracker — OK"
+            },
+            {
+                id: "call-jan",
+                title: "Call mensuel janvier",
+                livrable: "Note de synthèse",
+                status: "todo",
+                items: [
+                    { label: "Analyse de la performance globale", done: false },
+                    { label: "Note de synthèse performance", done: false },
+                    { label: "Suggestions d'amélioration roadmap", done: false },
+                    { label: "Mise à disposition état des lieux roadmap", done: false }
+                ]
+            },
+            {
+                id: "call-feb",
+                title: "Call mensuel février",
+                livrable: "Note de synthèse",
+                status: "todo",
+                items: [
+                    { label: "Analyse de la performance globale", done: false },
+                    { label: "Note de synthèse performance", done: false },
+                    { label: "Suggestions d'amélioration roadmap", done: false }
+                ]
+            },
+            {
+                id: "call-mar",
+                title: "Call mensuel mars",
+                livrable: "Note de synthèse",
+                status: "todo",
+                items: [
+                    { label: "Analyse de la performance globale", done: false },
+                    { label: "Note de synthèse performance", done: false },
+                    { label: "Suggestions d'amélioration roadmap", done: false }
+                ]
+            }
+        ]
+    },
+    {
+        id: "phase4",
+        title: "Pilotage T2 → T4 — Bilans de performance",
+        number: "4",
+        weight: 10,
+        subtitle: "Bilans trimestriels sur la performance du projet",
+        deliverables: [
+            {
+                id: "bilan-t2",
+                title: "Bilan T2 (juin)",
+                livrable: "Bilan de performance T2",
+                status: "todo",
+                items: [
+                    { label: "Analyse performance T2", done: false },
+                    { label: "Restitution bilan T2", done: false }
+                ]
+            },
+            {
+                id: "bilan-t3",
+                title: "Bilan T3 (septembre)",
+                livrable: "Bilan de performance T3",
+                status: "todo",
+                items: [
+                    { label: "Analyse performance T3", done: false },
+                    { label: "Restitution bilan T3", done: false }
+                ]
+            },
+            {
+                id: "bilan-t4",
+                title: "Bilan T4 (décembre)",
+                livrable: "Bilan de performance T4",
+                status: "todo",
+                items: [
+                    { label: "Analyse performance T4 + bilan annuel", done: false },
+                    { label: "Restitution bilan T4", done: false }
+                ]
+            }
+        ]
+    }
+];
+
+// ============================================================
+// STATE
+// ============================================================
+const STORAGE_KEY = "bmw_motorrad_actions_v1";
+const COLLAPSED_KEY = "bmw_motorrad_collapsed_v1";
+let state = null;
+let collapsed = {};
+let notionTasks = [];
+let notionLoading = false;
+let notionError = null;
+let notionSnapshotMeta = null;
+
+function loadState() {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) {
+        try {
+            state = JSON.parse(saved);
+        } catch (e) {
+            state = JSON.parse(JSON.stringify(ACTIONS));
+            return;
+        }
+    } else {
+        state = JSON.parse(JSON.stringify(ACTIONS));
+        return;
+    }
+    // Re-synchronise les métadonnées non modifiables côté client (poids,
+    // titres, sous-tâches ajoutées depuis la dernière publication) tout en
+    // préservant les statuts / cases cochées enregistrés.
+    for (const defaultPhase of ACTIONS) {
+        let statePhase = state.find(p => p.id === defaultPhase.id);
+        if (!statePhase) {
+            state.push(JSON.parse(JSON.stringify(defaultPhase)));
+            continue;
+        }
+        statePhase.weight = defaultPhase.weight;
+        statePhase.title = defaultPhase.title;
+        statePhase.subtitle = defaultPhase.subtitle;
+        statePhase.number = defaultPhase.number;
+        for (const defaultDeliv of defaultPhase.deliverables) {
+            const stateDeliv = statePhase.deliverables.find(d => d.id === defaultDeliv.id);
+            if (!stateDeliv) {
+                statePhase.deliverables.push(JSON.parse(JSON.stringify(defaultDeliv)));
+                continue;
+            }
+            stateDeliv.title = defaultDeliv.title;
+            stateDeliv.livrable = defaultDeliv.livrable;
+            stateDeliv.note = defaultDeliv.note;
+        }
+    }
+}
+
+function saveState() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+}
+
+function resetLocal() {
+    if (!confirm("Rétablir l'état tel que publié (perdre les modifications locales) ?")) return;
+    localStorage.removeItem(STORAGE_KEY);
+    state = JSON.parse(JSON.stringify(ACTIONS));
+    render();
+}
+
+function loadCollapsed() {
+    const saved = localStorage.getItem(COLLAPSED_KEY);
+    if (saved) {
+        try { collapsed = JSON.parse(saved); } catch (e) { collapsed = {}; }
+    } else {
+        collapsed = {};
+    }
+}
+
+function saveCollapsed() {
+    localStorage.setItem(COLLAPSED_KEY, JSON.stringify(collapsed));
+}
+
+function togglePhase(phaseId, event) {
+    if (event && event.target.closest(".status-pill, input, button")) return;
+    collapsed[phaseId] = !collapsed[phaseId];
+    saveCollapsed();
+    render();
+}
+
+function toggleAllPhases() {
+    const allCollapsed = state.every(p => collapsed[p.id]);
+    state.forEach(p => { collapsed[p.id] = !allCollapsed; });
+    saveCollapsed();
+    render();
+}
+
+// ============================================================
+// DATES & TEMPO
+// ============================================================
+function getExpectedPercent() {
+    const today = new Date();
+    const start = new Date(CONTRACT.start);
+    const end = new Date(CONTRACT.end);
+    const total = end - start;
+    const elapsed = today - start;
+    return Math.min(100, Math.max(0, (elapsed / total) * 100));
+}
+
+function fmtDate() {
+    return new Date().toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long", year: "numeric" });
+}
+
+// ============================================================
+// PROGRESS COMPUTATION
+// ============================================================
+function deliverableProgress(d) {
+    // Compute percent complete for a deliverable
+    if (d.status === "done") return 100;
+    if (d.status === "na") return 100;
+    if (!d.items || d.items.length === 0) {
+        return d.status === "ongoing" ? 20 : 0;
+    }
+    let total = 0, done = 0;
+    d.items.forEach(it => {
+        if (it.counter) {
+            total += 1;
+            done += Math.min(1, it.counter.current / it.counter.target);
+        } else {
+            total += 1;
+            if (it.done) done += 1;
+        }
+    });
+    return total > 0 ? (done / total) * 100 : 0;
+}
+
+function notionProgress() {
+    const tasks = notionTasks.length > 0 ? notionTasks : NOTION_SNAPSHOT;
+    if (!tasks || tasks.length === 0) return null;
+    const done = tasks.filter(t => notionDoneStatus(t.avancement)).length;
+    return (done / tasks.length) * 100;
+}
+
+function phaseProgress(phase) {
+    const items = [];
+    if (phase.deliverables && phase.deliverables.length > 0) {
+        for (const d of phase.deliverables) {
+            items.push({ progress: deliverableProgress(d), weight: 1 });
+        }
+    }
+    // Phase 2 : les tâches Notion comptent avec leur propre pondération
+    if (phase.id === "phase2" && phase.notionWeight) {
+        const np = notionProgress();
+        if (np !== null) items.push({ progress: np, weight: phase.notionWeight });
+    }
+    if (items.length === 0) return 0;
+    const totalW = items.reduce((s, it) => s + it.weight, 0);
+    return items.reduce((s, it) => s + it.progress * it.weight, 0) / totalW;
+}
+
+function overallProgress() {
+    // Moyenne pondérée par le poids de chaque phase (issu du devis)
+    const totalWeight = state.reduce((s, p) => s + (p.weight || 0), 0);
+    if (totalWeight === 0) return 0;
+    return state.reduce((s, p) => s + phaseProgress(p) * (p.weight || 0), 0) / totalWeight;
+}
+
+function getBarClass(donePct, expectedPct) {
+    const diff = donePct - expectedPct;
+    if (diff >= -5) return "fill-green";
+    if (diff >= -15) return "fill-orange";
+    return "fill-red";
+}
+
+function getStatusLabel(status) {
+    switch (status) {
+        case "done": return "Terminé";
+        case "ongoing": return "En cours";
+        case "na": return "Non applicable";
+        default: return "À engager";
+    }
+}
+
+function nextStatus(s) {
+    const order = ["todo", "ongoing", "done", "na"];
+    const i = order.indexOf(s);
+    return order[(i + 1) % order.length];
+}
+
+// ============================================================
+// INTERACTIONS
+// ============================================================
+function cycleStatus(phaseId, delivId) {
+    const ph = state.find(p => p.id === phaseId);
+    const d = ph.deliverables.find(x => x.id === delivId);
+    d.status = nextStatus(d.status);
+    saveState();
+    render();
+}
+
+function toggleItem(phaseId, delivId, itemIdx) {
+    const ph = state.find(p => p.id === phaseId);
+    const d = ph.deliverables.find(x => x.id === delivId);
+    const it = d.items[itemIdx];
+    it.done = !it.done;
+    // Auto-sync deliverable status based on items
+    const allDone = d.items.every(i => i.counter ? i.counter.current >= i.counter.target : i.done);
+    const anyProgress = d.items.some(i => i.counter ? i.counter.current > 0 : i.done);
+    if (allDone) d.status = "done";
+    else if (anyProgress) d.status = "ongoing";
+    else d.status = "todo";
+    saveState();
+    render();
+}
+
+function updateCounter(phaseId, delivId, itemIdx, value) {
+    const ph = state.find(p => p.id === phaseId);
+    const d = ph.deliverables.find(x => x.id === delivId);
+    const it = d.items[itemIdx];
+    it.counter.current = Math.max(0, parseInt(value) || 0);
+    it.done = it.counter.current >= it.counter.target;
+    const allDone = d.items.every(i => i.counter ? i.counter.current >= i.counter.target : i.done);
+    const anyProgress = d.items.some(i => i.counter ? i.counter.current > 0 : i.done);
+    if (allDone) d.status = "done";
+    else if (anyProgress) d.status = "ongoing";
+    else d.status = "todo";
+    saveState();
+    render();
+}
+
+// ============================================================
+// AUTH (porte d'entrée client-side, pas une vraie sécurité)
+// ============================================================
+const AUTH_STORAGE_KEY = "bmw_motorrad_auth_v1";
+
+async function sha256(str) {
+    const buf = new TextEncoder().encode(str);
+    const hash = await crypto.subtle.digest("SHA-256", buf);
+    return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, "0")).join("");
+}
+
+async function generateCredentialsHash(email, password) {
+    const normalized = String(email).trim().toLowerCase() + ":" + String(password);
+    const hash = await sha256(AUTH_SALT + "|" + normalized);
+    console.log("Hash à ajouter dans AUTH_HASH :\n\n  \"" + hash + "\"\n");
+    return hash;
+}
+window.generateCredentialsHash = generateCredentialsHash;
+
+function isAuthRequired() {
+    return Array.isArray(AUTH_HASH) && AUTH_HASH.length > 0;
+}
+
+async function checkStoredAuth() {
+    const stored = localStorage.getItem(AUTH_STORAGE_KEY);
+    if (!stored) return false;
+    return AUTH_HASH.includes(stored);
+}
+
+async function handleLogin(evt) {
+    evt.preventDefault();
+    const email = document.getElementById("loginEmail").value;
+    const pwd = document.getElementById("loginPwd").value;
+    const errEl = document.getElementById("loginError");
+    errEl.textContent = "";
+    try {
+        const hash = await sha256(AUTH_SALT + "|" + email.trim().toLowerCase() + ":" + pwd);
+        if (AUTH_HASH.includes(hash)) {
+            localStorage.setItem(AUTH_STORAGE_KEY, hash);
+            unlockUI();
+        } else {
+            errEl.textContent = "Email ou mot de passe incorrect.";
+        }
+    } catch (e) {
+        errEl.textContent = "Erreur : " + e.message;
+    }
+}
+
+function handleLogout() {
+    localStorage.removeItem(AUTH_STORAGE_KEY);
+    lockUI();
+}
+
+function lockUI() {
+    document.body.classList.add("locked");
+    document.getElementById("loginScreen").style.display = "flex";
+    document.getElementById("loginEmail").value = "";
+    document.getElementById("loginPwd").value = "";
+    document.getElementById("loginError").textContent = "";
+}
+
+function unlockUI() {
+    document.body.classList.remove("locked");
+    document.getElementById("loginScreen").style.display = "none";
+    document.getElementById("btnLogout").style.display = "";
+}
+
+// ============================================================
+// NOTION
+// ============================================================
+function notionDoneStatus(avancement) {
+    return ["Terminé", "Livré", "Done"].includes(avancement);
+}
+function notionOngoingStatus(avancement) {
+    return ["En cours", "En tests", "Recette", "A valider / Intégrer"].includes(avancement);
+}
+function notionPrioClass(prio) {
+    switch (prio) {
+        case "Importante": return "prio-high";
+        case "Moyenne": return "prio-med";
+        case "Faible": return "prio-low";
+        default: return "prio-none";
+    }
+}
+
+// Charge notion-snapshot.json (généré server-side par GitHub Actions).
+// Ce fichier peut ne pas exister en local si l'action n'a jamais tourné :
+// on utilise alors NOTION_SNAPSHOT embarqué comme fallback.
+async function fetchNotionTasks() {
+    const resp = await fetch("notion-snapshot.json?t=" + Date.now(), { cache: "no-store" });
+    if (!resp.ok) throw new Error("HTTP " + resp.status);
+    const data = await resp.json();
+    notionSnapshotMeta = { generatedAt: data.generatedAt, count: data.count };
+    return data.tasks || [];
+}
+
+async function refreshNotion() {
+    notionLoading = true;
+    notionError = null;
+    render();
+    try {
+        notionTasks = await fetchNotionTasks();
+    } catch (e) {
+        // Fetch impossible (ex: file://) → on garde le snapshot embarqué dans le HTML
+        notionTasks = NOTION_SNAPSHOT.slice();
+        if (NOTION_SNAPSHOT.length === 0) {
+            notionError = "Aucune tâche Notion disponible. Lance `node scripts/notion-sync.mjs` dans le Terminal, puis recharge la page.";
+        }
+    } finally {
+        notionLoading = false;
+        render();
+    }
+}
+
+function toggleNotionGroup(key) {
+    const k = "notion-" + key;
+    collapsed[k] = !collapsed[k];
+    saveCollapsed();
+    render();
+}
+
+function renderNotionBlock() {
+    const tasks = notionTasks.length > 0 ? notionTasks : NOTION_SNAPSHOT;
+    if (tasks.length === 0 && !notionLoading && !notionError) return "";
+
+    const doneCount = tasks.filter(t => notionDoneStatus(t.avancement)).length;
+    const ongoingCount = tasks.filter(t => notionOngoingStatus(t.avancement)).length;
+    const backlogCount = tasks.length - doneCount - ongoingCount;
+    const highPrioPending = tasks.filter(t => t.priorite === "Importante" && !notionDoneStatus(t.avancement)).length;
+
+    // Groupement par statut (ordre logique)
+    const statusOrder = ["En cours", "En tests", "Recette", "A valider / Intégrer", "À engager", "A engager", "Envisagé", "Backlog", "Terminé", "Livré", "Done"];
+    const groups = {};
+    for (const t of tasks) {
+        const key = t.avancement || "—";
+        if (!groups[key]) groups[key] = [];
+        groups[key].push(t);
+    }
+    const sortedKeys = Object.keys(groups).sort((a, b) => {
+        const ia = statusOrder.indexOf(a); const ib = statusOrder.indexOf(b);
+        if (ia === -1 && ib === -1) return a.localeCompare(b);
+        if (ia === -1) return 1;
+        if (ib === -1) return -1;
+        return ia - ib;
+    });
+
+    const pct = tasks.length > 0 ? Math.round((doneCount / tasks.length) * 100) : 0;
+    const freshness = notionSnapshotMeta?.generatedAt
+        ? " · snapshot du " + new Date(notionSnapshotMeta.generatedAt).toLocaleString("fr-FR", { day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit" })
+        : "";
+
+    let html = `
+    <div class="deliverable deliverable-notion">
+        <div class="deliverable-header">
+            <div class="deliverable-title">
+                Tâches Notion <span class="weight-badge">${tasks.length}</span>
+                ${highPrioPending > 0 ? ` <span class="prio-tag prio-high">${highPrioPending} prio. haute</span>` : ""}
+            </div>
+            <div style="text-align:right;font-size:0.78rem;color:#636e72;">
+                <div><strong>${pct}%</strong> terminé · ${doneCount} done · ${ongoingCount} en cours · ${backlogCount} à engager</div>
+                <div style="font-size:0.72rem;">${freshness}</div>
+            </div>
+        </div>`;
+
+    if (notionError) {
+        html += `<div class="notion-error">${notionError}</div>`;
+    }
+
+    for (const key of sortedKeys) {
+        const items = groups[key];
+        const isCollapsed = !!collapsed["notion-" + key];
+        const done = notionDoneStatus(key);
+        const ongoing = notionOngoingStatus(key);
+        const bg = done ? "#f0faf4" : ongoing ? "#f0f6fc" : "#f5f6fa";
+        html += `<div class="notion-group ${isCollapsed ? 'collapsed' : ''}">
+            <div class="notion-group-header" style="background:${bg};cursor:pointer;" onclick="toggleNotionGroup('${escapeHtml(key).replace(/'/g, "\\'")}')">
+                <span class="chevron">▼</span>
+                <strong>${escapeHtml(key)}</strong>
+                <span class="count">${items.length}</span>
+            </div>
+            <div class="notion-group-body">`;
+        for (const t of items) {
+            const cls = notionDoneStatus(t.avancement) ? "done" : notionOngoingStatus(t.avancement) ? "ongoing" : "";
+            const prioCls = notionPrioClass(t.priorite);
+            const meta = [];
+            if (t.priorite) meta.push(`<span class="prio-tag ${prioCls}">${escapeHtml(t.priorite)}</span>`);
+            if (t.echeance) meta.push(`<span class="date-tag">📅 ${new Date(t.echeance).toLocaleDateString("fr-FR")}</span>`);
+            if (t.assignation) meta.push(`<span class="date-tag">👤 ${escapeHtml(t.assignation)}</span>`);
+            html += `<div class="notion-task ${cls}">
+                <div class="notion-task-body">
+                    <span>${escapeHtml(t.name)}</span>
+                    ${meta.length ? `<div class="notion-task-meta">${meta.join("")}</div>` : ""}
+                </div>
+                ${t.url ? `<a href="${t.url}" target="_blank" rel="noopener">Ouvrir ↗</a>` : ""}
+            </div>`;
+        }
+        html += `</div></div>`;
+    }
+
+    html += `</div>`;
+    return html;
+}
+
+function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));
+}
+
+// ============================================================
+// EXPORT
+// ============================================================
+function exportJSON() {
+    const parts = [];
+    parts.push("// À copier dans index.html (remplace les deux constantes + mets à jour LAST_PUBLISHED)");
+    parts.push("");
+    parts.push("const LAST_PUBLISHED = \"" + new Date().toISOString().slice(0, 10) + "\";");
+    parts.push("");
+    parts.push("const ACTIONS = " + JSON.stringify(state, null, 4) + ";");
+    parts.push("");
+    if (notionTasks && notionTasks.length > 0) {
+        parts.push("const NOTION_SNAPSHOT = " + JSON.stringify(notionTasks, null, 4) + ";");
+    } else {
+        parts.push("const NOTION_SNAPSHOT = [];");
+    }
+    document.getElementById("exportText").value = parts.join("\n");
+    document.getElementById("exportModal").style.display = "flex";
+}
+
+function copyExport() {
+    const ta = document.getElementById("exportText");
+    ta.select();
+    document.execCommand("copy");
+    alert("Copié. Collez cette constante dans index.html puis commitez sur GitHub.");
+}
+
+// ============================================================
+// RENDER
+// ============================================================
+function renderSubitems(phaseId, delivId, items) {
+    if (!items || items.length === 0) return "";
+    let html = `<ul class="subitems">`;
+    items.forEach((it, idx) => {
+        if (it.counter) {
+            html += `<li class="${it.done ? 'done' : ''}">
+                <input type="checkbox" ${it.done ? 'checked' : ''} onchange="toggleItem('${phaseId}','${delivId}',${idx})">
+                <span class="label">${it.label}</span>
+                <span class="counter">
+                    <input type="number" min="0" value="${it.counter.current}" onchange="updateCounter('${phaseId}','${delivId}',${idx},this.value)">
+                    <span class="target">/ ${it.counter.target} ${it.counter.unit}</span>
+                </span>
+            </li>`;
+        } else {
+            html += `<li class="${it.done ? 'done' : ''}">
+                <input type="checkbox" ${it.done ? 'checked' : ''} onchange="toggleItem('${phaseId}','${delivId}',${idx})">
+                <span class="label">${it.label}</span>
+            </li>`;
+        }
+    });
+    html += `</ul>`;
+    return html;
+}
+
+function renderDeliverable(phase, d) {
+    const statusClass = `status-${d.status}`;
+    const livrableBadge = d.livrable ? `<span class="livrable">📄 ${d.livrable}</span>` : "";
+    const note = d.note ? `<div class="deliverable-note">${d.note}</div>` : "";
+
+    return `
+    <div class="deliverable ${statusClass}">
+        <div class="deliverable-header">
+            <div class="deliverable-title">${d.title}${livrableBadge}</div>
+            <button class="status-pill ${statusClass}" onclick="cycleStatus('${phase.id}','${d.id}')" title="Cliquer pour changer le statut">${getStatusLabel(d.status)}</button>
+        </div>
+        ${renderSubitems(phase.id, d.id, d.items)}
+        ${note}
+    </div>`;
+}
+
+function renderPhase(phase) {
+    const pct = phaseProgress(phase);
+    const expected = getExpectedPercent();
+    const barCls = getBarClass(pct, expected);
+    const delivDone = phase.deliverables.filter(d => d.status === "done").length;
+    const delivTotal = phase.deliverables.length;
+
+    let body = phase.deliverables.map(d => renderDeliverable(phase, d)).join("");
+    // Injection du bloc Notion dans la phase 2 (Optimisations crédit temps)
+    if (phase.id === "phase2") {
+        body += renderNotionBlock();
+    }
+
+    const isCollapsed = !!collapsed[phase.id];
+
+    const weightBadge = phase.weight ? `<span class="weight-badge" title="Poids dans le projet">${phase.weight}%</span>` : "";
+
+    return `
+    <div class="phase ${isCollapsed ? 'collapsed' : ''}">
+        <div class="phase-header" onclick="togglePhase('${phase.id}', event)">
+            <div>
+                <div class="phase-title">
+                    <span class="phase-number">${phase.number}</span>
+                    ${phase.title}
+                    ${weightBadge}
+                    <span class="chevron">▼</span>
+                </div>
+                <div style="font-size:0.82rem;color:#636e72;margin-top:4px;margin-left:38px;">${phase.subtitle}</div>
+            </div>
+            <div class="phase-stats">
+                <div><span class="done-count">${delivDone}</span> / ${delivTotal} livrables</div>
+                <div style="font-size:0.75rem;">${Math.round(pct)}% d'avancement</div>
+                ${isCollapsed ? `<div class="progress-bg" style="width:120px;margin-top:6px;"><div class="progress-fill ${barCls}" style="width:${pct}%"></div></div>` : ''}
+            </div>
+        </div>
+        <div class="phase-body">
+            <div class="progress-bg">
+                <div class="progress-fill ${barCls}" style="width:${pct}%"></div>
+            </div>
+            ${body}
+        </div>
+    </div>`;
+}
+
+function render() {
+    document.getElementById("currentDate").textContent = fmtDate();
+
+    const expected = getExpectedPercent();
+    document.getElementById("tempoExpected").style.width = expected + "%";
+    document.getElementById("tempoMarker").style.left = expected + "%";
+    document.getElementById("tempoMarker").dataset.label = "Aujourd'hui (" + Math.round(expected) + "%)";
+    document.getElementById("tempoPercent").textContent = Math.round(expected) + "% de l'année écoulée";
+
+    // Summary
+    const overall = overallProgress();
+    const overallCls = overall >= expected - 5 ? "green" : overall >= expected - 15 ? "orange" : "red";
+    const allDeliv = state.flatMap(p => p.deliverables);
+    const nbDone = allDeliv.filter(d => d.status === "done").length;
+    const nbOngoing = allDeliv.filter(d => d.status === "ongoing").length;
+    const nbTodo = allDeliv.filter(d => d.status === "todo").length;
+
+    document.getElementById("summaryGrid").innerHTML = `
+        <div class="summary-card">
+            <div class="value ${overallCls}">${Math.round(overall)}%</div>
+            <div class="label">Avancement global (pondéré)</div>
+        </div>
+        <div class="summary-card">
+            <div class="value blue">${Math.round(expected)}%</div>
+            <div class="label">Attendu à ce jour</div>
+        </div>
+        <div class="summary-card">
+            <div class="value green">${nbDone}</div>
+            <div class="label">Livrables terminés</div>
+        </div>
+        <div class="summary-card">
+            <div class="value orange">${nbOngoing}</div>
+            <div class="label">En cours</div>
+        </div>
+        <div class="summary-card">
+            <div class="value gray">${nbTodo}</div>
+            <div class="label">À engager</div>
+        </div>
+    `;
+
+    // Phases (Notion block est intégré dans la phase 2 via renderPhase)
+    document.getElementById("content").innerHTML = state.map(renderPhase).join("");
+
+    // Last published
+    document.getElementById("lastCommitDate").textContent =
+        new Date(LAST_PUBLISHED).toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" });
+}
+
+// ============================================================
+// INIT
+// ============================================================
+async function init() {
+    // Porte d'entrée d'abord
+    if (isAuthRequired()) {
+        const ok = await checkStoredAuth();
+        if (!ok) { lockUI(); } else { unlockUI(); }
+    } else {
+        unlockUI();
+        document.getElementById("btnLogout").style.display = "none";
+    }
+
+    loadState();
+    loadCollapsed();
+    if (NOTION_SNAPSHOT.length > 0) notionTasks = NOTION_SNAPSHOT.slice();
+    render();
+    // Tente de charger le dernier snapshot publié (notion-snapshot.json).
+    refreshNotion();
+}
+
+window.addEventListener("DOMContentLoaded", init);
+</script>
+</body>
+</html>
