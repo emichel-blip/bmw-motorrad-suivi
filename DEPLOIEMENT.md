@@ -99,5 +99,22 @@ Ajoute un enregistrement :
 ## Mettre à jour le suivi (workflow quotidien)
 
 Le dashboard s'auto-rafraîchit côté Notion via l'Action. Pour toi :
-- **Cocher des cases du devis** → travaille en local dans ton navigateur, puis **Exporter pour publication** → colle dans `index.html`, `git commit && git push`. GitHub Pages rebuild en 1-2 min.
+- **Cocher des cases du devis** → travaille dans ton navigateur, puis **Publier sur GitHub** (un clic) — voir setup token ci-dessous
 - **Tâches Notion** : simplement coche les cases dans ton kanban Notion. L'Action pull automatiquement.
+
+## Publication en un clic (token GitHub fine-grained)
+
+Pour activer le bouton **Publier sur GitHub** dans le dashboard :
+
+1. Aller sur https://github.com/settings/personal-access-tokens/new
+2. **Token name** : `bmw-motorrad-suivi-publish` (peu importe)
+3. **Expiration** : 1 an (ou ce que tu préfères)
+4. **Repository access** → **Only select repositories** → choisis `bmw-motorrad-suivi`
+5. **Permissions** → section **Repository permissions** :
+   - **Contents** : **Read and write**
+   - (laisse tout le reste sur "No access")
+6. **Generate token** → copie la chaîne `github_pat_...`
+7. Dans le dashboard : clic sur **Exporter pour publication** (ou « éditer » en bas) → colle le token → **Enregistrer**
+8. À partir de là, le bouton **Publier sur GitHub** commit et push automatiquement, GitHub Pages rebuild en ~1 min
+
+Le token est stocké uniquement dans le localStorage de ton navigateur (jamais committé). Si tu changes de Mac ou de navigateur, il faudra le re-renseigner.

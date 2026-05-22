@@ -710,12 +710,23 @@
 <!-- Modal -->
 <div class="modal-bg" id="exportModal" style="display:none;">
     <div class="modal">
-        <h2>Exporter l'état actuel</h2>
-        <p>Copiez ce bloc dans <code>index.html</code> (remplace <code>LAST_PUBLISHED</code>, <code>ACTIONS</code> et <code>NOTION_SNAPSHOT</code>), puis commitez sur GitHub.</p>
+        <h2>Publier les modifications</h2>
+        <p>Clic sur <strong>Publier sur GitHub</strong> pour committer automatiquement les changements
+        (LAST_PUBLISHED, ACTIONS, NOTION_SNAPSHOT). GitHub Pages rebuild en ~1 min.
+        Ou copie le code et fais-le à la main si tu préfères.</p>
+
+        <div id="githubTokenRow" class="notion-config" style="display:none;margin-bottom:12px;">
+            <span class="label">Token GitHub :</span>
+            <input type="password" id="githubTokenInput" placeholder="github_pat_... (fine-grained, Contents r/w)" />
+            <button class="btn btn-primary" onclick="saveGithubToken()">Enregistrer</button>
+        </div>
+        <div id="publishStatus" style="margin-bottom:12px;font-size:0.85rem;"></div>
+
         <textarea id="exportText" readonly></textarea>
         <div class="modal-footer">
             <button class="btn btn-secondary" onclick="document.getElementById('exportModal').style.display='none'">Fermer</button>
-            <button class="btn btn-primary" onclick="copyExport()">Copier dans le presse-papier</button>
+            <button class="btn btn-secondary" onclick="copyExport()">Copier le code</button>
+            <button class="btn btn-primary" id="btnPublishGithub" onclick="publishToGitHub()">Publier sur GitHub</button>
         </div>
     </div>
 </div>
@@ -731,6 +742,11 @@
 // ============================================================
 const CONTRACT = { start: "2026-01-01", end: "2026-12-31" };
 const LAST_PUBLISHED = "2026-04-21";
+
+// Repo GitHub cible pour la publication automatique
+const GITHUB_REPO = "emichel-blip/bmw-motorrad-suivi";
+const GITHUB_FILE = "index.html";
+const GITHUB_TOKEN_KEY = "bmw_motorrad_github_token";
 
 // Base Notion Empirik — kanban projet BMW Motorrad
 const NOTION_DATABASE_ID = "2f4abe8b-9989-81b6-9d8d-e39662ac1789";
@@ -1718,6 +1734,113 @@ function exportJSON() {
     }
     document.getElementById("exportText").value = parts.join("\n");
     document.getElementById("exportModal").style.display = "flex";
+    // Affiche la ligne de saisie du token si pas encore enregistré
+    const token = localStorage.getItem(GITHUB_TOKEN_KEY);
+    document.getElementById("githubTokenRow").style.display = token ? "none" : "flex";
+    document.getElementById("publishStatus").textContent = token
+        ? "Token GitHub enregistré · prêt à publier."
+        : "Renseigne un token GitHub (fine-grained, Contents r/w sur le repo) pour activer la publication en un clic.";
+}
+
+function saveGithubToken() {
+    const input = document.getElementById("githubTokenInput");
+    const t = input.value.trim();
+    if (!t) return;
+    localStorage.setItem(GITHUB_TOKEN_KEY, t);
+    input.value = "";
+    document.getElementById("githubTokenRow").style.display = "none";
+    setPublishStatus("Token enregistré.", "ok");
+}
+
+function setPublishStatus(msg, kind) {
+    const el = document.getElementById("publishStatus");
+    el.textContent = msg;
+    el.style.color = kind === "error" ? "#d63031" : kind === "ok" ? "#00b894" : "#636e72";
+}
+
+// Encode une string UTF-8 en base64 (l'API GitHub Contents l'exige)
+function utf8ToBase64(str) {
+    return btoa(unescape(encodeURIComponent(str)));
+}
+function base64ToUtf8(b64) {
+    return decodeURIComponent(escape(atob(b64.replace(/\n/g, ""))));
+}
+
+async function publishToGitHub() {
+    const token = localStorage.getItem(GITHUB_TOKEN_KEY);
+    if (!token) {
+        document.getElementById("githubTokenRow").style.display = "flex";
+        setPublishStatus("Renseigne d'abord un token GitHub.", "error");
+        return;
+    }
+    const btn = document.getElementById("btnPublishGithub");
+    btn.disabled = true;
+    btn.textContent = "Publication…";
+    setPublishStatus("Récupération du fichier en ligne…");
+
+    try {
+        // 1) Récupère le SHA + contenu courant
+        const getResp = await fetch(
+            `https://api.github.com/repos/${GITHUB_REPO}/contents/${GITHUB_FILE}?ref=main`,
+            { headers: { "Authorization": "Bearer " + token, "Accept": "application/vnd.github+json" } }
+        );
+        if (!getResp.ok) {
+            const err = await getResp.json().catch(() => ({}));
+            throw new Error("GET échec (" + getResp.status + ") : " + (err.message || ""));
+        }
+        const fileData = await getResp.json();
+        let content = base64ToUtf8(fileData.content);
+
+        // 2) Patch les 3 constantes
+        const today = new Date().toISOString().slice(0, 10);
+        const actionsJson = JSON.stringify(state, null, 4);
+        const tasksForSnapshot = (notionTasks && notionTasks.length > 0) ? notionTasks : NOTION_SNAPSHOT;
+        const snapshotJson = JSON.stringify(tasksForSnapshot, null, 4);
+
+        const replacements = [
+            { re: /const LAST_PUBLISHED\s*=\s*"[^"]*";/, repl: `const LAST_PUBLISHED = "${today}";` },
+            { re: /const ACTIONS\s*=\s*\[[\s\S]*?\n\];/m, repl: `const ACTIONS = ${actionsJson};` },
+            { re: /const NOTION_SNAPSHOT\s*=\s*\[[\s\S]*?\n\];/m, repl: `const NOTION_SNAPSHOT = ${snapshotJson};` }
+        ];
+        for (const r of replacements) {
+            if (!r.re.test(content)) {
+                throw new Error("Bloc introuvable dans index.html (regex: " + r.re + ").");
+            }
+            content = content.replace(r.re, r.repl);
+        }
+
+        // 3) PUT le nouveau contenu
+        setPublishStatus("Commit en cours…");
+        const putResp = await fetch(
+            `https://api.github.com/repos/${GITHUB_REPO}/contents/${GITHUB_FILE}`,
+            {
+                method: "PUT",
+                headers: {
+                    "Authorization": "Bearer " + token,
+                    "Accept": "application/vnd.github+json",
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    message: "publish: " + today,
+                    content: utf8ToBase64(content),
+                    sha: fileData.sha,
+                    branch: "main"
+                })
+            }
+        );
+        if (!putResp.ok) {
+            const err = await putResp.json().catch(() => ({}));
+            throw new Error("PUT échec (" + putResp.status + ") : " + (err.message || ""));
+        }
+        const putData = await putResp.json();
+        const commitSha = putData.commit?.sha?.slice(0, 7) || "?";
+        setPublishStatus(`✓ Publié (commit ${commitSha}). GitHub Pages rebuild dans ~1 min.`, "ok");
+    } catch (e) {
+        setPublishStatus("Erreur : " + e.message, "error");
+    } finally {
+        btn.disabled = false;
+        btn.textContent = "Publier sur GitHub";
+    }
 }
 
 function copyExport() {
