@@ -140,6 +140,53 @@
             text-decoration: none;
         }
         .ns-source:hover { text-decoration: underline; }
+        .ns-regex-toggle {
+            margin-top: 8px;
+            font-size: 0.72rem;
+            color: #636e72;
+            cursor: pointer;
+            user-select: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .ns-regex-toggle:hover { color: #0166b1; }
+        .ns-regex-toggle .arrow { transition: transform 0.2s; display: inline-block; font-size: 0.65rem; }
+        .ns-regex-toggle .arrow.open { transform: rotate(90deg); }
+        .ns-regex-block {
+            margin-top: 8px;
+            background: #f5f6fa;
+            padding: 10px 12px;
+            border-radius: 6px;
+            border: 1px solid #e1e4e8;
+        }
+        .ns-regex-block pre {
+            font-family: ui-monospace, Menlo, monospace;
+            font-size: 0.7rem;
+            line-height: 1.4;
+            color: #2d3436;
+            white-space: pre-wrap;
+            word-break: break-all;
+            margin-bottom: 8px;
+            user-select: all;
+        }
+        .ns-regex-copy {
+            background: #0166b1;
+            color: white;
+            border: none;
+            padding: 5px 12px;
+            border-radius: 4px;
+            font-size: 0.72rem;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        .ns-regex-copy:hover { background: #014a82; }
+        .ns-regex-hint {
+            font-size: 0.7rem;
+            color: #95a5a6;
+            margin-top: 8px;
+            font-style: italic;
+        }
 
         /* Summary */
         .summary-grid {
@@ -750,8 +797,17 @@
         <div class="ns-pillar ns-seo">
             <div class="ns-pillar-title">KPIs SEO</div>
             <div class="ns-kpi">
-                <div class="ns-kpi-name">Mots-clés top 3 (hors marque)</div>
+                <div class="ns-kpi-name">Mots-clés top 3 (hors marque & hors modèles)</div>
                 <a class="ns-source" href="https://impakkt.empirik.fr/market/bmwmotorrad/fra/mobile?currentPeriod=4S&comparePeriod=N-1" target="_blank">→ IMPAKKT</a>
+                <div class="ns-regex-toggle" onclick="toggleRegex()">
+                    <span class="arrow" id="regexArrow">▶</span> Regex d'exclusion (pour GSC)
+                </div>
+                <div class="ns-regex-block" id="regexBlock" style="display:none;">
+                    <pre id="exclusionRegex">(?i)(bmw|blmw|motorrad|mot+or+r*ad+e?s?|\b(blw|bnw|bmv|bmx|bwm|bmww|mbw|vbmw|bow|b[ .]m[ .]?w|bm|bw|[msrfgkx]{1,2} ?[0-9]{2,4} ?(rr|xr|rs|rt|gtl|gt|gsa|gs|r|x|s)?|[0-9]{3,4} ?(rr|xr|rs|rt|gtl|gt|gsa|gs|r|x)|(rr|xr|rs|rt|gt) ?[0-9]{3,4}|gsa?( ?[0-9]{2,4} ?r?)?|[0-9]{2,4} ?gsa?|r ?9 ?t|r ?nine ?t?|nine ?t|ninet|rnine|adventure|gs ?trophy|ce ?0?[24]|c ?400 ?(gt|x)?|hp ?4|rr|rs|rt|xr)\b)</pre>
+                    <button class="ns-regex-copy" onclick="copyRegex()">Copier la regex</button>
+                    <span id="regexCopyStatus" style="font-size:0.72rem;color:#00b894;margin-left:8px;"></span>
+                    <div class="ns-regex-hint">Dans la Search Console → onglet Performances → filtrer sur Requêtes → choisir « Requêtes ne correspondant pas au regex »</div>
+                </div>
             </div>
             <div class="ns-kpi">
                 <div class="ns-kpi-name">Clics SEO</div>
@@ -1886,6 +1942,23 @@ function renderNotionBlock() {
 
 function escapeHtml(s) {
     return String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));
+}
+
+function toggleRegex() {
+    const block = document.getElementById("regexBlock");
+    const arrow = document.getElementById("regexArrow");
+    const open = block.style.display === "none";
+    block.style.display = open ? "block" : "none";
+    arrow.classList.toggle("open", open);
+}
+
+function copyRegex() {
+    const txt = document.getElementById("exclusionRegex").textContent;
+    navigator.clipboard.writeText(txt).then(() => {
+        const s = document.getElementById("regexCopyStatus");
+        s.textContent = "✓ copié";
+        setTimeout(() => { s.textContent = ""; }, 2000);
+    });
 }
 
 // ============================================================
