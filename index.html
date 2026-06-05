@@ -701,7 +701,7 @@
 <!-- Admin bar -->
 <div class="admin-bar">
     <button class="btn btn-secondary" onclick="toggleAllPhases()">Tout plier / déplier</button>
-    <button class="btn btn-secondary" onclick="refreshNotion()">Rafraîchir Notion</button>
+    <button class="btn btn-secondary" onclick="refreshNotion({interactive:true})">Rafraîchir Notion</button>
     <button class="btn btn-primary" onclick="exportJSON()">Exporter pour publication</button>
     <button class="btn btn-secondary" onclick="resetLocal()">Restaurer</button>
     <button class="btn btn-secondary" id="btnLogout" onclick="handleLogout()" style="display:none;">Déconnexion</button>
@@ -1605,22 +1605,76 @@ async function fetchNotionTasks() {
     return data.tasks || [];
 }
 
-async function refreshNotion() {
+async function refreshNotion(opts) {
+    opts = opts || {};
+    const isLocal = window.location.protocol === "file:";
+    const interactive = !!opts.interactive;
+
+    if (isLocal && interactive) {
+        // En local, le fetch ne marchera jamais (file:// + CORS). On guide.
+        showNotionToast(
+            "Mode local — copie la commande ci-dessous dans le terminal pour rafraîchir, puis recharge la page (⌘R).",
+            "info",
+            'cd "/Users/emmanuelmichel/Tools/BMW Motorrad - Avancement projet" && NOTION_TOKEN="ntn_..." node scripts/notion-sync.mjs'
+        );
+        return;
+    }
+
     notionLoading = true;
     notionError = null;
     render();
+
+    const previousGeneratedAt = notionSnapshotMeta?.generatedAt;
+
     try {
         notionTasks = await fetchNotionTasks();
+        if (interactive) {
+            const fresh = notionSnapshotMeta?.generatedAt;
+            if (fresh && fresh !== previousGeneratedAt) {
+                showNotionToast(`✓ Snapshot rafraîchi — ${notionTasks.length} tâches.`, "ok");
+            } else {
+                const when = fresh ? new Date(fresh).toLocaleString("fr-FR", { day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit" }) : "?";
+                showNotionToast(`Pas de mise à jour disponible (snapshot du ${when}). L'Action GitHub doit être active pour des données fraîches.`, "info");
+            }
+        }
     } catch (e) {
-        // Fetch impossible (ex: file://) → on garde le snapshot embarqué dans le HTML
         notionTasks = NOTION_SNAPSHOT.slice();
         if (NOTION_SNAPSHOT.length === 0) {
-            notionError = "Aucune tâche Notion disponible. Lance `node scripts/notion-sync.mjs` dans le Terminal, puis recharge la page.";
+            notionError = "Aucune tâche Notion disponible. Lance `node scripts/notion-sync.mjs` dans le terminal, puis recharge la page.";
+        }
+        if (interactive) {
+            if (isLocal) {
+                showNotionToast("Mode local : fetch impossible depuis file://. Utilise la commande terminal.", "error");
+            } else {
+                showNotionToast("Échec du fetch : " + e.message, "error");
+            }
         }
     } finally {
         notionLoading = false;
         render();
     }
+}
+
+function showNotionToast(msg, kind, command) {
+    let el = document.getElementById("notionToast");
+    if (!el) {
+        el = document.createElement("div");
+        el.id = "notionToast";
+        document.body.appendChild(el);
+    }
+    const bg = kind === "ok" ? "#0a9061" : kind === "error" ? "#c0392b" : "#0166b1";
+    el.style.cssText = `
+        position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%);
+        background: ${bg}; color: white; padding: 14px 22px; border-radius: 8px;
+        box-shadow: 0 6px 22px rgba(0,0,0,0.18); font-size: 0.9rem; z-index: 250;
+        max-width: 720px; line-height: 1.4;
+    `;
+    el.innerHTML = msg + (command
+        ? `<div style="margin-top:8px;padding:8px 10px;background:rgba(0,0,0,0.25);border-radius:6px;font-family:ui-monospace,Menlo,monospace;font-size:0.78rem;word-break:break-all;cursor:pointer;" onclick="navigator.clipboard.writeText(this.textContent);this.style.background='rgba(255,255,255,0.25)';this.firstElementChild.textContent='✓ copié';" >${escapeHtml(command)}<span style="display:block;font-size:0.7rem;opacity:0.8;margin-top:4px;">clic pour copier</span></div>`
+        : "");
+    el.style.display = "block";
+    clearTimeout(el._t);
+    el._t = setTimeout(() => { el.style.display = "none"; }, command ? 12000 : 4500);
 }
 
 function toggleNotionGroup(key) {
