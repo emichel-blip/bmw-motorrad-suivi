@@ -75,6 +75,72 @@
         .resource-link:hover { background: #0166b1; color: white; border-color: #0166b1; }
         .resource-link .icon { margin-right: 4px; }
 
+        /* North Star */
+        .northstar {
+            background: white;
+            border-radius: 12px;
+            padding: 22px 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+            border-left: 4px solid #0166b1;
+        }
+        .northstar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 14px;
+        }
+        .northstar-header h2 { font-size: 1.05rem; color: #0166b1; }
+        .ns-sub { font-size: 0.8rem; color: #636e72; font-style: italic; }
+        .northstar-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 16px;
+        }
+        .ns-pillar {
+            background: #fafbfc;
+            border-radius: 8px;
+            padding: 14px 16px;
+            border-top: 3px solid;
+        }
+        .ns-seo { border-top-color: #0166b1; }
+        .ns-geo { border-top-color: #e67e22; }
+        .ns-business { border-top-color: #00b894; }
+        .ns-pillar-title {
+            font-weight: 700;
+            font-size: 0.85rem;
+            margin-bottom: 10px;
+            letter-spacing: 0.02em;
+            text-transform: uppercase;
+            color: #2d3436;
+        }
+        .ns-kpi {
+            padding: 8px 0;
+            border-bottom: 1px solid #ecf0f1;
+        }
+        .ns-kpi:last-child { border-bottom: none; }
+        .ns-kpi-name {
+            font-size: 0.88rem;
+            color: #2d3436;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+        .ns-kpi-hint {
+            display: block;
+            font-size: 0.72rem;
+            color: #95a5a6;
+            font-weight: 400;
+            margin-top: 1px;
+        }
+        .ns-source {
+            font-size: 0.75rem;
+            color: #0166b1;
+            text-decoration: none;
+        }
+        .ns-source:hover { text-decoration: underline; }
+
         /* Summary */
         .summary-grid {
             display: grid;
@@ -667,10 +733,50 @@
 <div class="resources">
     <a class="resource-link" href="https://datastudio.google.com/u/0/reporting/0eeed133-6166-4ad2-ba60-ffe8db6a1421/page/p_kx1rbu54bd" target="_blank"><span class="icon">📊</span>Looker Studio</a>
     <a class="resource-link" href="https://impakkt.empirik.fr/market/bmwmotorrad/fra/mobile?currentPeriod=4S&comparePeriod=N-1" target="_blank"><span class="icon">🎯</span>IMPAKKT</a>
+    <a class="resource-link" href="https://llmbrandtracker-1031834791638.europe-west9.run.app/login.php" target="_blank"><span class="icon">🤖</span>LLM Brand Tracker</a>
     <a class="resource-link" href="https://docs.google.com/spreadsheets/d/1VeN6ev-VJraHN0Y5jSf3Fv49UjFonpfUrf8_PiAET7I/edit" target="_blank"><span class="icon">🔑</span>Charte de nommage mots-clés</a>
     <a class="resource-link" href="https://drive.google.com/drive/folders/1ARZ9KFePWaszJ3iefUbWJFJqcuth5BFY" target="_blank"><span class="icon">📁</span>Livrables (Drive)</a>
     <a class="resource-link" href="https://docs.google.com/spreadsheets/d/1ddpEZNPmZefMDAMlyr3NuXTw9saDcY303J4J-hvB_Q0/edit" target="_blank"><span class="icon">📋</span>Dossier de travail</a>
     <a class="resource-link" href="https://www.bmw-motorrad.fr/fr/home.html" target="_blank"><span class="icon">🌐</span>bmw-motorrad.fr</a>
+</div>
+
+<!-- North Star — KPIs de pilotage -->
+<div class="northstar">
+    <div class="northstar-header">
+        <h2>🎯 North Star — KPIs de pilotage</h2>
+        <span class="ns-sub">les indicateurs que ce projet cherche à faire bouger</span>
+    </div>
+    <div class="northstar-grid">
+        <div class="ns-pillar ns-seo">
+            <div class="ns-pillar-title">KPIs SEO</div>
+            <div class="ns-kpi">
+                <div class="ns-kpi-name">Mots-clés top 3 (hors marque)</div>
+                <a class="ns-source" href="https://impakkt.empirik.fr/market/bmwmotorrad/fra/mobile?currentPeriod=4S&comparePeriod=N-1" target="_blank">→ IMPAKKT</a>
+            </div>
+            <div class="ns-kpi">
+                <div class="ns-kpi-name">Clics SEO</div>
+                <a class="ns-source" href="https://datastudio.google.com/u/0/reporting/0eeed133-6166-4ad2-ba60-ffe8db6a1421/page/p_kx1rbu54bd" target="_blank">→ Google Search Console (Looker)</a>
+            </div>
+        </div>
+        <div class="ns-pillar ns-geo">
+            <div class="ns-pillar-title">KPIs GEO</div>
+            <div class="ns-kpi">
+                <div class="ns-kpi-name">Part de voix GEO</div>
+                <a class="ns-source" href="https://llmbrandtracker-1031834791638.europe-west9.run.app/login.php" target="_blank">→ LLM Brand Tracker</a>
+            </div>
+        </div>
+        <div class="ns-pillar ns-business">
+            <div class="ns-pillar-title">KPIs Business</div>
+            <div class="ns-kpi">
+                <div class="ns-kpi-name">Interacting visits · % NVWR<span class="ns-kpi-hint">(new vehicle web demand requests)</span></div>
+                <a class="ns-source" href="https://datastudio.google.com/u/0/reporting/0eeed133-6166-4ad2-ba60-ffe8db6a1421/page/p_kx1rbu54bd" target="_blank">→ Adobe Analytics (Looker)</a>
+            </div>
+            <div class="ns-kpi">
+                <div class="ns-kpi-name">Nombre de leads</div>
+                <a class="ns-source" href="https://docs.google.com/spreadsheets/d/1qJ0SdpznXiJC8L2MrPLTjlf3_m7nnVwYclZf-7D5Dl8/edit?gid=203077243#gid=203077243" target="_blank">→ Sheets (TCD)</a>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- Summary -->
