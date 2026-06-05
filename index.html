@@ -798,9 +798,9 @@
             <div class="ns-pillar-title">KPIs SEO</div>
             <div class="ns-kpi">
                 <div class="ns-kpi-name">Mots-clés top 3 (hors marque & hors modèles)</div>
-                <a class="ns-source" href="https://impakkt.empirik.fr/market/bmwmotorrad/fra/mobile?currentPeriod=4S&comparePeriod=N-1" target="_blank">→ IMPAKKT</a>
+                <a class="ns-source" href="https://search.google.com/search-console" target="_blank">→ Google Search Console (regex d'exclusion)</a>
                 <div class="ns-regex-toggle" onclick="toggleRegex()">
-                    <span class="arrow" id="regexArrow">▶</span> Regex d'exclusion (pour GSC)
+                    <span class="arrow" id="regexArrow">▶</span> Voir la regex d'exclusion
                 </div>
                 <div class="ns-regex-block" id="regexBlock" style="display:none;">
                     <pre id="exclusionRegex">(?i)(bmw|blmw|motorrad|mot+or+r*ad+e?s?|\b(blw|bnw|bmv|bmx|bwm|bmww|mbw|vbmw|bow|b[ .]m[ .]?w|bm|bw|[msrfgkx]{1,2} ?[0-9]{2,4} ?(rr|xr|rs|rt|gtl|gt|gsa|gs|r|x|s)?|[0-9]{3,4} ?(rr|xr|rs|rt|gtl|gt|gsa|gs|r|x)|(rr|xr|rs|rt|gt) ?[0-9]{3,4}|gsa?( ?[0-9]{2,4} ?r?)?|[0-9]{2,4} ?gsa?|r ?9 ?t|r ?nine ?t?|nine ?t|ninet|rnine|adventure|gs ?trophy|ce ?0?[24]|c ?400 ?(gt|x)?|hp ?4|rr|rs|rt|xr)\b)</pre>
@@ -811,7 +811,7 @@
             </div>
             <div class="ns-kpi">
                 <div class="ns-kpi-name">Clics SEO</div>
-                <a class="ns-source" href="https://datastudio.google.com/u/0/reporting/0eeed133-6166-4ad2-ba60-ffe8db6a1421/page/p_kx1rbu54bd" target="_blank">→ Google Search Console (Looker)</a>
+                <a class="ns-source" href="https://search.google.com/search-console" target="_blank">→ Google Search Console</a>
             </div>
         </div>
         <div class="ns-pillar ns-geo">
@@ -829,7 +829,7 @@
             </div>
             <div class="ns-kpi">
                 <div class="ns-kpi-name">Nombre de leads</div>
-                <a class="ns-source" href="https://docs.google.com/spreadsheets/d/1qJ0SdpznXiJC8L2MrPLTjlf3_m7nnVwYclZf-7D5Dl8/edit?gid=203077243#gid=203077243" target="_blank">→ Sheets (TCD)</a>
+                <a class="ns-source" href="https://datastudio.google.com/u/0/reporting/0eeed133-6166-4ad2-ba60-ffe8db6a1421/page/p_kx1rbu54bd" target="_blank">→ Looker Studio (Adobe Analytics)</a>
             </div>
         </div>
     </div>
@@ -1256,7 +1256,7 @@ const ACTIONS = [
         id: "phase1",
         title: "Stratégie",
         number: "1",
-        weight: 10,
+        weight: 30,
         subtitle: "Kick-off · Audit · Étude mots-clés · Stratégie & mix SEO",
         deliverables: [
             {
@@ -1314,7 +1314,7 @@ const ACTIONS = [
         id: "phase2",
         title: "Optimisations (crédit temps)",
         number: "2",
-        weight: 70,
+        weight: 50,
         subtitle: "Techniques · Sémantiques · Off-page · Correctives · Tâches Notion",
         // Pondération du bloc Notion vs les 4 livrables du devis dans cette phase.
         // 1 = Notion pèse comme un livrable ; 4 = autant que les 4 livrables combinés.
